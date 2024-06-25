@@ -27,7 +27,7 @@ public class KaisenClient implements ClientModInitializer
 {
 	public static boolean mainRender = false;
 
-	private KeyBinding configKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.arcane.config", GLFW.GLFW_KEY_C, "key.category.arcane"));
+	private KeyBinding configKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.kaisen.config", GLFW.GLFW_KEY_C, "key.category.kaisen"));
 
 	@Override
 	public void onInitializeClient()

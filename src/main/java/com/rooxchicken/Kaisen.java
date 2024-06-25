@@ -10,7 +10,7 @@ public class Kaisen implements ModInitializer
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
-    public static final Logger LOGGER = LoggerFactory.getLogger("arcane-mana");
+    public static final Logger LOGGER = LoggerFactory.getLogger("kaisen");
 
 	@Override
 	public void onInitialize() {
@@ -18,6 +18,6 @@ public class Kaisen implements ModInitializer
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Can display up to 1987 mana! (made by roo)");
+		LOGGER.info("Up to 1987 Cursed Techniques! (made by roo)");
 	}
 }

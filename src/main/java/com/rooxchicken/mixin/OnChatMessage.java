@@ -23,7 +23,7 @@ public class OnChatMessage
         String content = message.getString();
         if(content.length() < 7)
             return;
-        if(content.substring(0, 6).equals("arc912"))
+        if(content.substring(0, 6).equals("ksn612"))
         {
             HandleData.parseData(content);
 

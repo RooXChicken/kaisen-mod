@@ -22,32 +22,30 @@ import org.lwjgl.glfw.GLFW;
 import com.rooxchicken.Kaisen;
 import com.rooxchicken.data.HandleData;
 import com.rooxchicken.event.DrawGUICallback;
+import com.rooxchicken.keybinding.KeyInputHandler;
+import com.rooxchicken.keybinding.Keybind;
 
 public class KaisenClient implements ClientModInitializer
 {
-	public static boolean mainRender = false;
+	public ArrayList<Keybind> keybinds;
+	private String category = "key.category.kaisen";
 
-	private KeyBinding configKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.kaisen.config", GLFW.GLFW_KEY_C, "key.category.kaisen"));
+	public static boolean mainRender = false;
 
 	@Override
 	public void onInitializeClient()
 	{
+		keybinds = new ArrayList<Keybind>();
+		keybinds.add(new Keybind(category, "key.kaisen.ability1", GLFW.GLFW_KEY_Z, "hdn_ability1"));
+		keybinds.add(new Keybind(category, "key.kaisen.ability2", GLFW.GLFW_KEY_X, "hdn_ability2"));
+
 		HudRenderCallback.EVENT.register(new DrawGUICallback());
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
 		{
 			mainRender = false;
 		});
 
-		ClientTickEvents.END_CLIENT_TICK.register(client ->
-		{	
-			if(!mainRender)
-            	return;
-
-			if(configKey.wasPressed())
-			{
-				//client.setScreen(new ConfigScreen(Text.of("Config Screen")));
-			}
-		});
+		KeyInputHandler.registerKeyInputs(keybinds);
 
 		load();
 	}

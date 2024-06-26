@@ -33,26 +33,49 @@ public class DrawGUICallback implements HudRenderCallback
     private int _x = 10;
     private int _y = 10;
 
-    private Identifier manaBarTex = Identifier.of("arcane-mana", "textures/gui/manaBar.png");
-    private Identifier manaBarInTex = Identifier.of("arcane-mana", "textures/gui/manaBarIn.png");
-    private Identifier manaBarInBlackTex = Identifier.of("arcane-mana", "textures/gui/manaBarInBlack.png");
-    private Identifier manaBarCrystalTex = Identifier.of("arcane-mana", "textures/gui/manaBarWithCrystal.png");
-    private Identifier manaBarOverlayTex = Identifier.of("arcane-mana", "textures/gui/manabarOverlay.png");
-
-    private Identifier vampiricBar = Identifier.of("arcane-mana", "textures/gui/vampiricBar.png");
-    private Identifier vampiricBar90 = Identifier.of("arcane-mana", "textures/gui/vampiricBar90.png");
-
-
-    //private int barSize = 60;
+    private Identifier ceBarTex = Identifier.of("kaisen", "textures/gui/ceBarIcons.png");
+    private Identifier ceBarFillTex = Identifier.of("kaisen", "textures/gui/ceBarFill.png");
 
     @Override
     public void onHudRender(DrawContext context, float tickDelta)
     {
-        if(!KaisenClient.mainRender)
-            return;
-            
+        // if(!KaisenClient.mainRender)
+        //     return;
+
         MinecraftClient client = MinecraftClient.getInstance();
         TextRenderer textRenderer = client.textRenderer;
+
+        startScaling(context, 1.4);
+            
+        int x = _x;
+        int y = _y;
+
+        MutableText ceName1 = MutableText.of(Text.of("Cleave").getContent());
+        ceName1.setStyle(ceName1.getStyle().withColor(0xCCCCCC));
+        MutableText ceName2 = MutableText.of(Text.of("Blood Manipulation").getContent());
+        ceName2.setStyle(ceName2.getStyle().withColor(0xFF2222));
+
+        context.drawTexture(ceBarFillTex, x, y, 0, 0, 130, 30, 130, 30);
+
+        int s = 18;
+        context.drawTexture(Identifier.of("kaisen", "textures/gui/iconsno/cleave.png"), x+4, y+8, 0, 0, s, s, s, s);
+        context.drawTexture(Identifier.of("kaisen", "textures/gui/iconsno/bloodmanipulation.png"), x+109, y+8, 0, 0, s, s, s, s);
+
+        context.fill(x + 26, y + 8, x + 76, y + 16, 0xFF475DE9);
+
+        RenderSystem.enableBlend();
+        context.drawTexture(ceBarTex, x, y, 0, 0, 130, 30, 130, 30);
+
+        stopScaling(context);
+
+        startScaling(context, 0.66);
+
+        context.drawCenteredTextWithShadow(textRenderer, ceName1.asOrderedText(), x + 150, y + 20, 0xFFFFFFFF);
+        context.drawCenteredTextWithShadow(textRenderer, ceName2.asOrderedText(), x + 150, y + 57, 0xFFFFFFFF);
+
+        context.drawCenteredTextWithShadow(textRenderer, Text.of("600/600"), x + 150, y + 38, 0xFFFFFFFF);
+
+        stopScaling(context);
     }
     
     private void startScaling(DrawContext context, double scale)

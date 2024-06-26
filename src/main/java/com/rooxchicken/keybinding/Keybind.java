@@ -28,17 +28,13 @@ public class Keybind
     {
         if(binding.isPressed() && !wasPressed)
         {
-            KaisenClient.sendChatCommand(command + "_srt");
+            KaisenClient.sendChatCommand(command);
             wasPressed = true;
         }
-        else if(binding.isPressed())
-        {
-            KaisenClient.sendChatCommand(command + "_rpt");
-        }
+        else if(binding.isPressed()) {}
         else if(wasPressed)
         {
             wasPressed = false;
-            KaisenClient.sendChatCommand(command + "_end");
         }
     }
 }

@@ -39,8 +39,8 @@ public class DrawGUICallback implements HudRenderCallback
     @Override
     public void onHudRender(DrawContext context, float tickDelta)
     {
-        // if(!KaisenClient.mainRender)
-        //     return;
+        if(!KaisenClient.mainRender)
+            return;
 
         MinecraftClient client = MinecraftClient.getInstance();
         TextRenderer textRenderer = client.textRenderer;

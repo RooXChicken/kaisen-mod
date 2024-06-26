@@ -50,18 +50,37 @@ public class DrawGUICallback implements HudRenderCallback
         int x = _x;
         int y = _y;
 
-        MutableText ceName1 = MutableText.of(Text.of("Cleave").getContent());
-        ceName1.setStyle(ceName1.getStyle().withColor(0xCCCCCC));
-        MutableText ceName2 = MutableText.of(Text.of("Blood Manipulation").getContent());
-        ceName2.setStyle(ceName2.getStyle().withColor(0xFF2222));
+        // if(HandleData.cursedTechnique1Name != "None")
+        // {
+
+        // }
+
+        MutableText ceName1 = MutableText.of(Text.of(HandleData.cursedTechnique1Name).getContent());
+        ceName1.setStyle(ceName1.getStyle().withColor(HandleData.color1));
+        MutableText ceName2 = MutableText.of(Text.of(HandleData.cursedTechnique2Name).getContent());
+        ceName2.setStyle(ceName2.getStyle().withColor(HandleData.color2));
 
         context.drawTexture(ceBarFillTex, x, y, 0, 0, 130, 30, 130, 30);
 
-        int s = 18;
-        context.drawTexture(Identifier.of("kaisen", "textures/gui/iconsno/cleave.png"), x+4, y+8, 0, 0, s, s, s, s);
-        context.drawTexture(Identifier.of("kaisen", "textures/gui/iconsno/bloodmanipulation.png"), x+109, y+8, 0, 0, s, s, s, s);
+        context.drawTexture(Identifier.of("kaisen", "textures/gui/icons/" + HandleData.cursedTechnique1FileName + ".png"), x+4, y+8, 0, 0, 18, 18, 18, 18);
+        context.drawTexture(Identifier.of("kaisen", "textures/gui/icons/" + HandleData.cursedTechnique2FileName + ".png"), x+109, y+8, 18, 0, 18, 18, 18, 18);
 
-        context.fill(x + 26, y + 8, x + 76, y + 16, 0xFF475DE9);
+        //Kaisen.LOGGER.info("" + 56*(HandleData.cursedEnergy/300.0));
+
+        context.fill(x + 26, y + 8, x + 26 + 78, y + 18, 0xFF333333);
+        context.fill(x + 26, y + 8, x + 26 + (int)(78.0 * (HandleData.cursedEnergy/300.0)), y + 18, 0xFF475DE9);
+
+        if(HandleData.cooldown1 > 0)
+        {
+            RenderSystem.enableBlend();
+            context.fill(x+4, y+9+17-(int)(17.0 * ((1.0*HandleData.cooldown1)/HandleData.cooldown1Max)), x+22, y+26, 0x88000000);
+        }
+
+        if(HandleData.cooldown2 > 0)
+        {
+            RenderSystem.enableBlend();
+            context.fill(x+110, y+9+17-(int)(17.0 * ((1.0*HandleData.cooldown2)/HandleData.cooldown2Max)), x+126, y+26, 0x88000000);
+        }
 
         RenderSystem.enableBlend();
         context.drawTexture(ceBarTex, x, y, 0, 0, 130, 30, 130, 30);
@@ -70,10 +89,28 @@ public class DrawGUICallback implements HudRenderCallback
 
         startScaling(context, 0.66);
 
-        context.drawCenteredTextWithShadow(textRenderer, ceName1.asOrderedText(), x + 150, y + 20, 0xFFFFFFFF);
-        context.drawCenteredTextWithShadow(textRenderer, ceName2.asOrderedText(), x + 150, y + 57, 0xFFFFFFFF);
+        OrderedText cursed1;
+        if(!HandleData.cursedTechnique1Name.equals("None"))
+            cursed1 = OrderedText.concat(ceName1.asOrderedText(), Text.of(" | " + HandleData.cost1 + "CE").asOrderedText());
+        else
+            cursed1 = ceName1.asOrderedText();
 
-        context.drawCenteredTextWithShadow(textRenderer, Text.of("600/600"), x + 150, y + 38, 0xFFFFFFFF);
+        OrderedText cursed2;
+        if(!HandleData.cursedTechnique2Name.equals("None"))
+            cursed2 = OrderedText.concat(ceName2.asOrderedText(), Text.of(" | " + HandleData.cost2 + "CE").asOrderedText());
+        else
+            cursed2 = ceName2.asOrderedText();
+
+        context.drawCenteredTextWithShadow(textRenderer, cursed1, x + 150, y + 20, 0xFFFFFFFF);
+        context.drawCenteredTextWithShadow(textRenderer, cursed2, x + 150, y + 57, 0xFFFFFFFF);
+
+        context.drawCenteredTextWithShadow(textRenderer, Text.of(HandleData.cursedEnergy + "/300"), x + 150, y + 38, 0xFFFFFFFF);
+
+        if(HandleData.cooldown1 > 0)
+            context.drawCenteredTextWithShadow(textRenderer, Text.of(HandleData.cooldown1/20 + "s"), x+38, y+44, 0xFFFFFFFF);
+
+        if(HandleData.cooldown2 > 0)
+            context.drawCenteredTextWithShadow(textRenderer, Text.of(HandleData.cooldown2/20 + "s"), x+262, y+44, 0xFFFFFFFF);
 
         stopScaling(context);
     }

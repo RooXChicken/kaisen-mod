@@ -34,6 +34,8 @@ public class DrawGUICallback implements HudRenderCallback
     private int _y = 10;
 
     private Identifier ceBarTex = Identifier.of("kaisen", "textures/gui/ceBarIcons.png");
+    private Identifier ceSquare1 = Identifier.of("kaisen", "textures/gui/ceSquare0.png");
+    private Identifier ceSquare2 = Identifier.of("kaisen", "textures/gui/ceSquare1.png");
     private Identifier ceBarFillTex = Identifier.of("kaisen", "textures/gui/ceBarFill.png");
 
     @Override
@@ -74,13 +76,24 @@ public class DrawGUICallback implements HudRenderCallback
         {
             RenderSystem.enableBlend();
             context.fill(x+4, y+9+17-(int)(17.0 * ((1.0*HandleData.cooldown1)/HandleData.cooldown1Max)), x+22, y+26, 0x88000000);
+            RenderSystem.setShaderColor(1.0f, 0.2f, 0.2f, 1.0f);
+            context.drawTexture(ceSquare1, x, y, 0, 0, 130, 30, 130, 30);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
+        else
+            context.drawTexture(ceSquare1, x, y, 0, 0, 130, 30, 130, 30);
+
 
         if(HandleData.cooldown2 > 0)
         {
             RenderSystem.enableBlend();
             context.fill(x+110, y+9+17-(int)(17.0 * ((1.0*HandleData.cooldown2)/HandleData.cooldown2Max)), x+126, y+26, 0x88000000);
+            RenderSystem.setShaderColor(1.0f, 0.2f, 0.2f, 1.0f);
+            context.drawTexture(ceSquare2, x, y, 0, 0, 130, 30, 130, 30);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
+        else
+            context.drawTexture(ceSquare2, x, y, 0, 0, 130, 30, 130, 30);
 
         RenderSystem.enableBlend();
         context.drawTexture(ceBarTex, x, y, 0, 0, 130, 30, 130, 30);

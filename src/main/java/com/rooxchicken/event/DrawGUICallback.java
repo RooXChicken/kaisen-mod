@@ -39,7 +39,7 @@ public class DrawGUICallback implements HudRenderCallback
     private Identifier ceBarFillTex = Identifier.of("kaisen", "textures/gui/ceBarFill.png");
 
     @Override
-    public void onHudRender(DrawContext context, float tickDelta)
+    public void onHudRender(DrawContext context, RenderTickCounter tickDelta)
     {
         if(!KaisenClient.mainRender)
             return;

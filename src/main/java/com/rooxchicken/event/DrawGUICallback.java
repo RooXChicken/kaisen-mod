@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.rooxchicken.Kaisen;
 import com.rooxchicken.client.KaisenClient;
 import com.rooxchicken.data.HandleData;
+import com.rooxchicken.screen.Element;
 
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
@@ -30,13 +31,10 @@ public class DrawGUICallback implements HudRenderCallback
 {
     private MatrixStack matrixStack;
 
-    private int _x = 10;
-    private int _y = 10;
-
-    private Identifier ceBarTex = Identifier.of("kaisen", "textures/gui/ceBarIcons.png");
-    private Identifier ceSquare1 = Identifier.of("kaisen", "textures/gui/ceSquare0.png");
-    private Identifier ceSquare2 = Identifier.of("kaisen", "textures/gui/ceSquare1.png");
-    private Identifier ceBarFillTex = Identifier.of("kaisen", "textures/gui/ceBarFill.png");
+    private Identifier ceBarTex = Identifier.of("kaisen", "textures/gui/cebaricons.png");
+    private Identifier ceSquare1 = Identifier.of("kaisen", "textures/gui/cesquare0.png");
+    private Identifier ceSquare2 = Identifier.of("kaisen", "textures/gui/cesquare1.png");
+    private Identifier ceBarFillTex = Identifier.of("kaisen", "textures/gui/cebarfill.png");
 
     @Override
     public void onHudRender(DrawContext context, RenderTickCounter tickDelta)
@@ -47,15 +45,12 @@ public class DrawGUICallback implements HudRenderCallback
         MinecraftClient client = MinecraftClient.getInstance();
         TextRenderer textRenderer = client.textRenderer;
 
-        startScaling(context, 1.4);
+        Element element = KaisenClient.element;
+
+        startScaling(context, 1.4 * element.Scale);
             
-        int x = _x;
-        int y = _y;
-
-        // if(HandleData.cursedTechnique1Name != "None")
-        // {
-
-        // }
+        int x = (int)(element.PositionX / (1.4*element.Scale));
+        int y = (int)(element.PositionY / (1.4*element.Scale));
 
         MutableText ceName1 = MutableText.of(Text.of(HandleData.cursedTechnique1Name).getContent());
         ceName1.setStyle(ceName1.getStyle().withColor(HandleData.color1));
@@ -100,7 +95,11 @@ public class DrawGUICallback implements HudRenderCallback
 
         stopScaling(context);
 
-        startScaling(context, 0.66);
+        
+        startScaling(context, 0.66 * element.Scale);
+        
+        x = (int)(element.PositionX / (0.66*element.Scale)) - 12;
+        y = (int)(element.PositionY / (0.66*element.Scale)) - 12;
 
         OrderedText cursed1;
         if(!HandleData.cursedTechnique1Name.equals("None"))

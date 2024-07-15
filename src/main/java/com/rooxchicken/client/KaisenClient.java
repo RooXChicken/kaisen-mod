@@ -18,12 +18,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl._3DFXTextureCompressionFXT1;
 
 import com.rooxchicken.Kaisen;
 import com.rooxchicken.data.HandleData;
 import com.rooxchicken.event.DrawGUICallback;
 import com.rooxchicken.keybinding.KeyInputHandler;
 import com.rooxchicken.keybinding.Keybind;
+import com.rooxchicken.screen.Element;
 
 public class KaisenClient implements ClientModInitializer
 {
@@ -31,6 +33,9 @@ public class KaisenClient implements ClientModInitializer
 	private String category = "key.category.kaisen";
 
 	public static boolean mainRender = false;
+	public static Element element = new Element();
+
+	public DrawGUICallback guiCallback;
 
 	@Override
 	public void onInitializeClient()
@@ -39,13 +44,14 @@ public class KaisenClient implements ClientModInitializer
 		keybinds.add(new Keybind(category, "key.kaisen.ability1", GLFW.GLFW_KEY_Z, "hdn_ability1"));
 		keybinds.add(new Keybind(category, "key.kaisen.ability2", GLFW.GLFW_KEY_X, "hdn_ability2"));
 
-		HudRenderCallback.EVENT.register(new DrawGUICallback());
+		guiCallback = new DrawGUICallback();
+		HudRenderCallback.EVENT.register(guiCallback);
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) ->
 		{
 			mainRender = false;
 		});
 
-		KeyInputHandler.registerKeyInputs(keybinds);
+		KeyInputHandler.registerKeyInputs(keybinds, this);
 
 		load();
 	}
@@ -73,6 +79,7 @@ public class KaisenClient implements ClientModInitializer
 		try
 		{
 			Scanner scan = new Scanner(file);
+			element.load(scan);
 			scan.close();
 		}
 		catch (FileNotFoundException e)
@@ -87,6 +94,8 @@ public class KaisenClient implements ClientModInitializer
 		try
 		{
 			FileWriter write = new FileWriter(file);
+
+			write.write(element.save());
 
 			write.close();
 

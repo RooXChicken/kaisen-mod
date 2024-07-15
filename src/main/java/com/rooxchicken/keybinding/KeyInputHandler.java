@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 
 import com.rooxchicken.client.KaisenClient;
 //import com.rooxchicken.screen.ConfigScreen;
+import com.rooxchicken.screen.ConfigScreen;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -17,7 +18,7 @@ public class KeyInputHandler
     private static ArrayList<Keybind> bindings;
 	private static KeyBinding configKey = new KeyBinding("key.kaisen.config", GLFW.GLFW_KEY_C, "key.category.kaisen");
 	
-	public static void registerKeyInputs(ArrayList<Keybind> _bindings)
+	public static void registerKeyInputs(ArrayList<Keybind> _bindings, KaisenClient _client)
 	{
         bindings = _bindings;
 		KeyBindingHelper.registerKeyBinding(configKey);
@@ -34,7 +35,7 @@ public class KeyInputHandler
 
 			if(configKey.wasPressed())
 			{
-				//client.setScreen(new ConfigScreen(Text.of("Config Screen")));
+				client.setScreen(new ConfigScreen(Text.of("Config Screen"), _client));
 			}
 		});
     }
